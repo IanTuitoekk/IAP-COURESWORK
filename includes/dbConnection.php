@@ -168,3 +168,13 @@ class dbConnection
         $sth = "TRUNCATE $table";
         return $this->extracted($sth);
     }
+    public function last_id(){
+        switch ($this->db_type) {
+        case 'PDO':
+                return $this->connection->lastInsertId();
+            break;
+		case 'MySQLi':
+			return $this->connection->insert_id;
+		break;
+		}
+	}	
