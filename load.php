@@ -1,5 +1,7 @@
 <?php
-
+session_start();
+require "includes/constants.php";
+require "includes/dbConnection.php";
 //Class Auto Load
 
 function classAutoLoad($classname)
@@ -18,6 +20,10 @@ function classAutoLoad($classname)
 
 spl_autoload_register('classAutoLoad');
 
+$ObjGlob = new fncs();
+
+// $ObjSendMail = new SendMail();
+
 //Create instances of all classes
 
 // require_once "layouts/layouts.php";
@@ -29,37 +35,12 @@ $ObjHeadings = new headings();
 $ObjCont=new contents();
 $ObjForm = new user_forms();
 
-require "includes/constants.php";
-require "includes/dbConnection.php";
-
 $conn = new dbConnection(DBTYPE,HOSTNAME,DBPORT,HOSTUSER,HOSTPASS,DBNAME);
 
 
 //Create process instances
 
 $ObjAuth=new auth();
-$ObjAuth->signup($conn);
-$objGlob =
-// $arr = ["black", "white", "green", "red"];
+$ObjAuth->signup($conn,$ObjGlob,$Obj);
 
-// foreach($arr AS $color){
-//    print $color . "<br>";
-// }
-
-// print dirname(_FILE_);
-// print "<br>";
-// print "<br>";
-// print $_SERVER["PHP_SELF"];
-// print "<br>";
-// print "<br>";
-// print basename($_SERVER["PHP_SELF"]);
-// print "<br>";
-// print "<br>";
-
-// if(file_exists("index.php")){
-//    print "yes";
-// }
-// else{
-//    print "no";
-// }
 ?>
