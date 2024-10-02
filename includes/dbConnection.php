@@ -164,3 +164,7 @@ class dbConnection
         }
         return $this->extracted($sth);
     }
+    public function truncate($table){
+        $sth = "TRUNCATE $table";
+        return $this->extracted($sth);
+    }
