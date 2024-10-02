@@ -109,3 +109,26 @@
                     break;
             }
         }
+
+        public function update($table, $data, $where){
+            $wer = '';
+            if(is_array($where)){
+                foreach ($where as $clave=>$value){
+                    $wer.= $clave."='".$value."' AND ";
+                }
+                $wer   = substr($wer, 0, -4);
+                $where = $wer;
+            }
+            ksort($data);
+            $fieldDetails = NULL;
+            foreach ($data as $key => $values){
+                $fieldDetails .= "$key='$values',";
+            }
+            $fieldDetails = rtrim($fieldDetails,',');
+            if($where==NULL or $where==''){
+                $sth = "UPDATE $table SET $fieldDetails";
+            }else {
+                $sth = "UPDATE $table SET $fieldDetails WHERE $where";
+            }
+            return $this->extracted($sth);
+        }
