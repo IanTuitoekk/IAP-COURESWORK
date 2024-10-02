@@ -1,19 +1,18 @@
 <?php
-
-class fnc{
-    var $fname;
-    public $username;
-    protected $email_address;
-    private $password;
-
-    public function computer_user($fname){
-        return $fname;
+class fncs{
+    public function setMsg($name, $values, $class){
+        if(is_array($values)){
+            $_SESSION[$name] = $values;
+        }else{
+            $_SESSION[$name] = '<span class="'.$class.'">'. $values .'</span>';
+        }
     }
 
-    public function user_age($name, $yob){
-        $age = date('Y') - $yob;
-        return $name . " is " . $age;
+    public function getMsg($name){
+        if(isset($_SESSION[$name])){
+            $session = $_SESSION[$name];
+            unset($_SESSION[$name]);
+            return $session;
+        }
     }
 }
-
-?>
