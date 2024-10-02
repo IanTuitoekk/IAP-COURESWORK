@@ -164,17 +164,43 @@ class dbConnection
         }
         return $this->extracted($sth);
     }
-    public function truncate($table){
+    public function truncate($table)
+    {
         $sth = "TRUNCATE $table";
         return $this->extracted($sth);
     }
-    public function last_id(){
+    public function last_id()
+    {
         switch ($this->db_type) {
-        case 'PDO':
+            case 'PDO':
                 return $this->connection->lastInsertId();
-            break;
-		case 'MySQLi':
-			return $this->connection->insert_id;
-		break;
-		}
-	}	
+                break;
+            case 'MySQLi':
+                return $this->connection->insert_id;
+                break;
+        }
+    }
+    public function extracted(string $sth)
+    {
+        switch ($this->db_type) {
+            case 'PDO':
+                try {
+                    // Prepare statement
+                    $stmt = $this->connection->prepare($sth);
+                    // execute the query
+                    $stmt->execute();
+                    return TRUE;
+                } catch (PDOException $e) {
+                    return $sth . "<br>" . $e->getMessage();
+                }
+                break;
+            case 'MySQLi':
+                if ($this->connection->query($sth) === TRUE) {
+                    return TRUE;
+                } else {
+                    return "Error: " . $sth . "<br>" . $this->connection->error;
+                }
+                break;
+        }
+    }
+}
