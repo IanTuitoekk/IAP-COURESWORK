@@ -1,4 +1,5 @@
 <?php
+    date_default_timezone_set("AFRICA/Nairobi");
     //Creating constants
     define('DBTYPE','PDO');
     define('HOSTNAME','localhost');
